@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>도입 전: 사장님 고충 여정 지도</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Pretendard:wght@400;600;700&display=swap');
+        
+        body {
+            font-family: 'Pretendard', sans-serif;
+            background-color: #f8fafc;
+            color: #334155;
+        }
+
+        .journey-container {
+            position: relative;
+            background: white;
+            border-radius: 1.5rem;
+            padding: 2.5rem;
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05);
+            border: 1px solid #e2e8f0;
+        }
+
+        .content-area {
+            height: 380px; 
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            gap: 1.5rem;
+            z-index: 20;
+            position: relative;
+            padding-bottom: 2rem;
+        }
+
+        .emotion-graph-area {
+            height: 180px; 
+            position: relative;
+            z-index: 10;
+            margin-top: 1rem;
+            border-top: 1px solid #f1f5f9;
+        }
+
+        .emotion-path-container {
+            position: absolute;
+            top: 20px;
+            left: 0;
+            width: 100%;
+            height: 100px;
+            pointer-events: none;
+        }
+
+        .thought-bubble {
+            position: relative;
+            background: #fff1f2; /* 붉은 계열로 변경 (불편함 강조) */
+            border: 1px solid #fecdd3;
+            border-radius: 12px;
+            padding: 12px;
+            font-size: 0.75rem;
+            margin-top: auto; 
+            min-height: 70px;
+            display: flex;
+            align-items: center;
+            color: #9f1239;
+        }
+
+        .thought-bubble::after {
+            content: '';
+            position: absolute;
+            bottom: -6px;
+            left: 20px;
+            border-left: 6px solid transparent;
+            border-right: 6px solid transparent;
+            border-top: 6px solid #fff1f2;
+        }
+
+        .step-header {
+            border-bottom-width: 4px;
+            margin-bottom: 1.5rem;
+        }
+
+        /* 하락하는 감정 곡선 (부정적 상황 강조) */
+        .emotion-line {
+            fill: none;
+            stroke: #f43f5e; 
+            stroke-width: 3;
+            stroke-dasharray: 8;
+        }
+
+        .emotion-dot {
+            fill: #e11d48;
+            stroke: white;
+            stroke-width: 3;
+            filter: drop-shadow(0 4px 6px rgba(0,0,0,0.1));
+        }
+    </style>
+</head>
+<body class="p-6 md:p-12">
+    <div class="max-w-7xl mx-auto">
+        <!-- Header -->
+        <div class="flex items-center mb-8">
+            <div class="w-12 h-12 bg-rose-600 rounded-xl flex items-center justify-center text-white text-2xl mr-4 shadow-lg">
+                <i class="fa-solid fa-triangle-exclamation"></i>
+            </div>
+            <div>
+                <h1 class="text-3xl font-bold text-slate-800 tracking-tight">솔루션 도입 전: 소상공인 고충 여정 지도</h1>
+                <p class="text-slate-500 font-medium">배달 플랫폼 의존과 수익성 악화에 따른 매장 운영의 한계</p>
+            </div>
+        </div>
+
+        <!-- Persona Section -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-10">
+            <div class="bg-white p-6 rounded-2xl border border-rose-100 shadow-sm">
+                <h2 class="text-lg font-bold mb-3 flex items-center text-rose-700">
+                    <i class="fa-solid fa-user-xmark mr-2"></i> 페르소나 (도입 전 상황)
+                </h2>
+                <p class="text-sm font-semibold mb-2 italic">"열심히 팔아도 수중에 남는 돈이 없어요."</p>
+                <ul class="text-xs text-slate-600 space-y-2 leading-relaxed">
+                    <li>• 높은 중개 수수료와 배달비로 인해 마진율이 10% 미만으로 하락</li>
+                    <li>• 홀은 비어있는데 주방은 배달 주문으로만 바쁜 비정상적인 구조</li>
+                </ul>
+            </div>
+            <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
+                <h2 class="text-lg font-bold mb-3 flex items-center text-slate-700">
+                    <i class="fa-solid fa-ban mr-2"></i> 주요 페인 포인트(Pain Points)
+                </h2>
+                <ul class="text-xs text-slate-600 space-y-2 leading-relaxed">
+                    <li>• <b>홍보 수단 부재:</b> 전단지나 앱 광고 외에 주변 유동인구를 끌어들일 방법이 없음</li>
+                    <li>• <b>가격 경직성:</b> 재료비는 오르는데 경쟁 때문에 가격은 못 올리고, 타임 세일은 일일이 수정하기 번거로움</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Main Journey -->
+        <div class="journey-container">
+            <!-- Headers -->
+            <div class="grid grid-cols-6 gap-4 relative z-30 text-center">
+                <div class="step-header border-slate-300 pb-2"><h4 class="font-bold text-[10px] text-slate-500 uppercase tracking-tighter">01. 홀 매장 침체</h4></div>
+                <div class="step-header border-slate-300 pb-2"><h4 class="font-bold text-[10px] text-slate-500 uppercase tracking-tighter">02. 배달 앱 의존</h4></div>
+                <div class="step-header border-rose-400 pb-2"><h4 class="font-bold text-[10px] text-rose-600 uppercase tracking-tighter">03. 수수료 부담 심화</h4></div>
+                <div class="step-header border-rose-500 pb-2"><h4 class="font-bold text-[10px] text-rose-700 uppercase tracking-tighter">04. 유입 전환 실패</h4></div>
+                <div class="step-header border-rose-600 pb-2"><h4 class="font-bold text-[10px] text-rose-800 uppercase tracking-tighter">05. 수익성 임계점</h4></div>
+                <div class="step-header border-rose-700 pb-2"><h4 class="font-bold text-[10px] text-rose-900 uppercase tracking-tighter">06. 변화 필요 인지</h4></div>
+            </div>
+
+            <!-- Text & Thought Bubbles -->
+            <div class="content-area">
+                <div class="flex flex-col h-full">
+                    <div class="text-[11px] text-slate-600 space-y-2">
+                        <p>• 매장 내 빈 자리 증가</p>
+                        <p>• 인근 유동인구 구경만 함</p>
+                    </div>
+                    <div class="thought-bubble italic">"점심 시간인데 왜 홀이 이렇게 조용하지? 다들 배달만 시키나.."</div>
+                </div>
+                <div class="flex flex-col h-full">
+                    <div class="text-[11px] text-slate-600 space-y-2">
+                        <p>• 울며 겨자 먹기로 광고</p>
+                        <p>• 랭킹 유지를 위한 출혈</p>
+                    </div>
+                    <div class="thought-bubble italic">"배달 앱 수수료 무서워도 안 쓰면 주문이 아예 안 들어와요."</div>
+                </div>
+                <div class="flex flex-col h-full">
+                    <div class="text-[11px] text-slate-600 space-y-2">
+                        <p>• 중개료+배달비 압박</p>
+                        <p>• 리뷰 이벤트 비용 추가</p>
+                    </div>
+                    <div class="thought-bubble italic">"15,000원 팔면 이것저것 떼고 2,000원 남나? 자선사업 하는 기분이야."</div>
+                </div>
+                <div class="flex flex-col h-full">
+                    <div class="text-[11px] text-slate-600 space-y-2">
+                        <p>• 홀 할인 홍보 불가</p>
+                        <p>• 지나가는 손님 유도 실패</p>
+                    </div>
+                    <div class="thought-bubble italic">"밖에 사람들 줄 서 있는데 우리 매장은 그냥 지나치네.. 할인이라도 알리고 싶다."</div>
+                </div>
+                <div class="flex flex-col h-full">
+                    <div class="text-[11px] text-slate-600 space-y-2">
+                        <p>• 재료비, 인건비 상승</p>
+                        <p>• 적자 운영 고민</p>
+                    </div>
+                    <div class="thought-bubble italic">"이대로는 몇 달 못 버티겠는데.. 가게 접어야 하나 고민입니다."</div>
+                </div>
+                <div class="flex flex-col h-full">
+                    <div class="text-[11px] text-slate-600 space-y-2">
+                        <p>• 기존 방식 한계 도달</p>
+                        <p>• 새로운 활로 모색</p>
+                    </div>
+                    <div class="thought-bubble italic">"배달 앱 말고 우리 가게 홀로 직접 오게 할 방법은 정말 없는 걸까?"</div>
+                </div>
+            </div>
+
+            <!-- Emotion Graph (하락 곡선) -->
+            <div class="emotion-graph-area">
+                <div class="emotion-path-container">
+                    <svg viewBox="0 0 1200 120" preserveAspectRatio="none" style="width: 100%; height: 100%;">
+                        <!-- 곡선: 점점 하락하다가 마지막에 반등의 필요성을 느끼는 흐름 -->
+                        <path class="emotion-line" d="M 100,30 C 200,35 250,50 300,60 C 400,75 450,90 500,95 C 600,105 650,110 700,115 C 800,115 850,118 900,118 C 1000,118 1050,100 1100,90" />
+                        <circle class="emotion-dot" cx="100" cy="30" r="8" /> 
+                        <circle class="emotion-dot" cx="300" cy="60" r="8" /> 
+                        <circle class="emotion-dot" cx="500" cy="95" r="8" /> 
+                        <circle class="emotion-dot" cx="700" cy="115" r="8" /> 
+                        <circle class="emotion-dot" cx="900" cy="118" r="8" /> 
+                        <circle class="emotion-dot" cx="1100" cy="90" r="8" />
+                    </svg>
+                </div>
+                <div class="flex justify-between px-[6%] mt-6 text-[10px] font-bold text-rose-400">
+                    <span class="text-center">🧐<br>불안함</span>
+                    <span class="text-center">😟<br>의존 심화</span>
+                    <span class="text-center">😫<br>스트레스</span>
+                    <span class="text-center">💔<br>좌절</span>
+                    <span class="text-center">💀<br>생존 위기</span>
+                    <span class="text-center">💡<br>탈출구 탐색</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer (도입의 당위성 강조) -->
+        <div class="mt-8 bg-rose-50 rounded-2xl p-6 border border-rose-100 flex items-center shadow-sm">
+            <div class="bg-rose-600 p-3 rounded-lg mr-4 shadow-md">
+                <i class="fa-solid fa-arrows-to-circle text-white"></i>
+            </div>
+            <p class="text-sm font-medium text-rose-900 leading-relaxed">
+                현재 매장들은 <span class="font-bold underline text-rose-700">과도한 배달 수수료</span>와 <span class="font-bold underline text-rose-700">홀 방문객 유도 수단 부재</span>라는 이중고를 겪고 있습니다. 
+                배달 앱에 쏟는 비용을 '실시간 홀 할인'으로 전환하여 수익성을 근본적으로 해결해야 합니다.
+            </p>
+        </div>
+    </div>
+</body>
+</html>
