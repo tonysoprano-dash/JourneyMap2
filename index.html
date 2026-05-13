@@ -1,4 +1,150 @@
-<!-- ... existing code ... -->
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>도입 전: 사장님 고충 여정 지도</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Pretendard:wght@400;600;700&display=swap');
+        
+        body {
+            font-family: 'Pretendard', sans-serif;
+            background-color: #f8fafc;
+            color: #334155;
+        }
+
+        .journey-container {
+            position: relative;
+            background: white;
+            border-radius: 1.5rem;
+            padding: 2.5rem;
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05);
+            border: 1px solid #e2e8f0;
+        }
+
+        .content-area {
+            height: 380px; 
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            gap: 1.5rem;
+            z-index: 20;
+            position: relative;
+            padding-bottom: 2rem;
+        }
+
+        .emotion-graph-area {
+            height: 180px; 
+            position: relative;
+            z-index: 10;
+            margin-top: 1rem;
+            border-top: 1px solid #f1f5f9;
+        }
+
+        .emotion-path-container {
+            position: absolute;
+            top: 20px;
+            left: 0;
+            width: 100%;
+            height: 100px;
+            pointer-events: none;
+        }
+
+        .thought-bubble {
+            position: relative;
+            background: #fff1f2; /* 붉은 계열로 변경 (불편함 강조) */
+            border: 1px solid #fecdd3;
+            border-radius: 12px;
+            padding: 12px;
+            font-size: 0.75rem;
+            margin-top: auto; 
+            min-height: 70px;
+            display: flex;
+            align-items: center;
+            color: #9f1239;
+        }
+
+        .thought-bubble::after {
+            content: '';
+            position: absolute;
+            bottom: -6px;
+            left: 20px;
+            border-left: 6px solid transparent;
+            border-right: 6px solid transparent;
+            border-top: 6px solid #fff1f2;
+        }
+
+        .step-header {
+            border-bottom-width: 4px;
+            margin-bottom: 1.5rem;
+        }
+
+        /* 하락하는 감정 곡선 (부정적 상황 강조) */
+        .emotion-line {
+            fill: none;
+            stroke: #f43f5e; 
+            stroke-width: 3;
+            stroke-dasharray: 8;
+        }
+
+        .emotion-dot {
+            fill: #e11d48;
+            stroke: white;
+            stroke-width: 3;
+            filter: drop-shadow(0 4px 6px rgba(0,0,0,0.1));
+        }
+    </style>
+</head>
+<body class="p-6 md:p-12">
+    <div class="max-w-7xl mx-auto">
+        <!-- Header -->
+        <div class="flex items-center mb-8">
+            <div class="w-12 h-12 bg-rose-600 rounded-xl flex items-center justify-center text-white text-2xl mr-4 shadow-lg">
+                <i class="fa-solid fa-triangle-exclamation"></i>
+            </div>
+            <div>
+                <h1 class="text-3xl font-bold text-slate-800 tracking-tight">솔루션 도입 전: 소상공인 고충 여정 지도</h1>
+                <p class="text-slate-500 font-medium">배달 플랫폼 의존과 수익성 악화에 따른 매장 운영의 한계</p>
+            </div>
+        </div>
+
+        <!-- Persona Section -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-10">
+            <div class="bg-white p-6 rounded-2xl border border-rose-100 shadow-sm">
+                <h2 class="text-lg font-bold mb-3 flex items-center text-rose-700">
+                    <i class="fa-solid fa-user-xmark mr-2"></i> 페르소나 (도입 전 상황)
+                </h2>
+                <p class="text-sm font-semibold mb-2 italic">"열심히 팔아도 수중에 남는 돈이 없어요."</p>
+                <ul class="text-xs text-slate-600 space-y-2 leading-relaxed">
+                    <li>• 높은 중개 수수료와 배달비로 인해 마진율이 10% 미만으로 하락</li>
+                    <li>• 홀은 비어있는데 주방은 배달 주문으로만 바쁜 비정상적인 구조</li>
+                </ul>
+            </div>
+            <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
+                <h2 class="text-lg font-bold mb-3 flex items-center text-slate-700">
+                    <i class="fa-solid fa-ban mr-2"></i> 주요 페인 포인트(Pain Points)
+                </h2>
+                <ul class="text-xs text-slate-600 space-y-2 leading-relaxed">
+                    <li>• <b>홍보 수단 부재:</b> 전단지나 앱 광고 외에 주변 유동인구를 끌어들일 방법이 없음</li>
+                    <li>• <b>가격 경직성:</b> 재료비는 오르는데 경쟁 때문에 가격은 못 올리고, 타임 세일은 일일이 수정하기 번거로움</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Main Journey -->
+        <div class="journey-container">
+            <!-- Headers -->
+            <div class="grid grid-cols-6 gap-4 relative z-30 text-center">
+                <div class="step-header border-slate-300 pb-2"><h4 class="font-bold text-[10px] text-slate-500 uppercase tracking-tighter">01. 홀 매장 침체</h4></div>
+                <div class="step-header border-slate-300 pb-2"><h4 class="font-bold text-[10px] text-slate-500 uppercase tracking-tighter">02. 배달 앱 의존</h4></div>
+                <div class="step-header border-rose-400 pb-2"><h4 class="font-bold text-[10px] text-rose-600 uppercase tracking-tighter">03. 수수료 부담 심화</h4></div>
+                <div class="step-header border-rose-500 pb-2"><h4 class="font-bold text-[10px] text-rose-700 uppercase tracking-tighter">04. 유입 전환 실패</h4></div>
+                <div class="step-header border-rose-600 pb-2"><h4 class="font-bold text-[10px] text-rose-800 uppercase tracking-tighter">05. 수익성 임계점</h4></div>
+                <div class="step-header border-rose-700 pb-2"><h4 class="font-bold text-[10px] text-rose-900 uppercase tracking-tighter">06. 변화 필요 인지</h4></div>
+            </div>
+
+           <!-- ... existing code ... -->
     <style>
 /* ... existing code ... */
         .content-area {
